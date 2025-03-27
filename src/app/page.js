@@ -3,38 +3,29 @@ import { useLang } from "./context/LangContext";
 import ProjectsSection from "./components/ProjectsSection";
 import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
+import Introduction from "./components/Introduction";
 
 export default function Home() {
   const { lang } = useLang();
 
   return (
-    <>
-      {/* Hero Section */}
-      <section
-        id="home"
-        className="flex flex-col items-center justify-center text-center space-y-6 py-20"
-      >
-        <h1 className="text-4xl md:text-6xl font-bold">
-          {lang === "en" ? "Hi, I’m Michael 👋" : "안녕하세요, 마이클입니다 👋"}
-        </h1>
+    <div className="flex flex-col lg:flex-row min-h-screen">
+  {/* Sidebar */}
+  <div className="lg:w-1/3 w-full bg-gray-100 dark:bg-gray-800">
+    <div className="lg:sticky top-0 h-screen flex items-start justify-center px-6 py-10">
+      <Introduction />
+    </div>
+  </div>
 
-        <p className="text-lg md:text-xl max-w-xl text-gray-600 dark:text-gray-300">
-          {lang === "en"
-            ? "I’m a developer, English teacher, and content creator. I build things for the web and help people grow through language."
-            : "저는 개발자이자 영어 선생님, 그리고 콘텐츠 크리에이터입니다. 웹을 통해 무언가를 만들고, 언어를 통해 사람들의 성장을 돕습니다."}
-        </p>
+  {/* Main Content */}
+  <div className="lg:w-2/3 w-full px-6 overflow-y-auto">
+    <AboutSection />
+    <ProjectsSection />
+    <ContactSection />
+  </div>
+</div>
 
-        <a
-          href="#projects"
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-        >
-          {lang === "en" ? "See My Projects" : "프로젝트 보기"}
-        </a>
-      </section>
 
-      <AboutSection />
-      <ProjectsSection />
-      <ContactSection />
-    </>
   );
 }
+

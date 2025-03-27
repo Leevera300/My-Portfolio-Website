@@ -19,25 +19,30 @@ export default function ProjectsSection() {
               ? "A sleek portfolio website built with Next.js and Tailwind CSS."
               : "Next.js와 Tailwind CSS로 만든 세련된 포트폴리오 웹사이트입니다."
           }
-          image="/images/portfolio-thumbnail.jpg"
+          image={
+            lang === "en"
+              ? "/images/My-portfolio-en.png"
+              : "/images/My-portfolio-kor.png"
+          }
           tags={["Next.js", "Tailwind", "Responsive"]}
           link="https://yourportfolio.com"
           github="https://github.com/yourusername/portfolio"
         />
 
         <ProjectCard
-          title={lang === "en" ? "KLAPS Platform" : "KLAPS 플랫폼"}
+          title={lang === "en" ? "HorsePower (Sports Wear)" : "HorsePower (스포트 웨어)"}
           description={
             lang === "en"
-              ? "Web app for language exchange events, built with Node.js."
-              : "Node.js로 개발된 언어교환 이벤트 플랫폼입니다."
+              ? "An e-commerce website for sports wear built with Java, javascript, and MySQL."
+              : "Java, javascript, MySQL로 만든 스포츠 웨어 전자상거래 웹사이트입니다."
           }
-          image="/images/klaps.jpg"
-          tags={["Node.js", "MongoDB", "React"]}
-          link="https://klaps.kr"
+          image="/images/horsepower/horsepower-home.png"
+          tags={["Java", "JavaScript", "MySQL", "HTML/CSS", "Apache Tomcat 9.0" ]}
+          link="/projects/horsepower"
           github="https://github.com/yourusername/klaps"
         />
       </div>
     </section>
   );
 }
+

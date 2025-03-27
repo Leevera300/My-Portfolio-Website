@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ProjectCard({
   title,
   description,
@@ -7,9 +9,10 @@ export default function ProjectCard({
   github,
 }) {
   return (
+    <Link href={link}>
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-xl transition-shadow overflow-hidden">
       {image && (
-        <img src={image} alt={title} className="w-full h-48 object-cover" />
+        <img src={image} alt={title} className="w-full h-48 rounded mb-4 max-h-60 object-contain" />
       )}
       <div className="p-6">
         <h3 className="text-2xl font-semibold mb-2">{title}</h3>
@@ -48,5 +51,6 @@ export default function ProjectCard({
         </div>
       </div>
     </div>
+    </Link>
   );
 }
