@@ -25,19 +25,29 @@ export default function ProjectsSection() {
               : "/images/My-portfolio-kor.png"
           }
           tags={["Next.js", "Tailwind", "Responsive"]}
-          link="https://yourportfolio.com"
-          github="https://github.com/yourusername/portfolio"
+          link="/projects/portfolio"
+          github="https://github.com/Leevera300/My-Portfolio-Website"
         />
 
         <ProjectCard
-          title={lang === "en" ? "HorsePower (Sports Wear)" : "HorsePower (스포트 웨어)"}
+          title={
+            lang === "en"
+              ? "HorsePower (Sports Wear)"
+              : "HorsePower (스포트 웨어)"
+          }
           description={
             lang === "en"
               ? "An e-commerce website for sports wear built with Java, javascript, and MySQL."
               : "Java, javascript, MySQL로 만든 스포츠 웨어 전자상거래 웹사이트입니다."
           }
           image="/images/horsepower/horsepower-home.png"
-          tags={["Java", "JavaScript", "MySQL", "HTML/CSS", "Apache Tomcat 9.0" ]}
+          tags={[
+            "Java",
+            "JavaScript",
+            "MySQL",
+            "HTML/CSS",
+            "Apache Tomcat 9.0",
+          ]}
           link="/projects/horsepower"
           github="https://github.com/yourusername/klaps"
         />
@@ -45,4 +55,3 @@ export default function ProjectsSection() {
     </section>
   );
 }
-
