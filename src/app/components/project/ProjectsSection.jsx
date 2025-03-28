@@ -1,5 +1,5 @@
 "use client";
-import { useLang } from "../context/LangContext";
+import { useLang } from "../../context/LangContext";
 import ProjectCard from "./ProjectCard";
 
 export default function ProjectsSection() {

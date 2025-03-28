@@ -1,6 +1,6 @@
 "use client";
 import { useLang } from "./context/LangContext";
-import ProjectsSection from "./components/ProjectsSection";
+import ProjectsSection from "./components/project/ProjectsSection";
 import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
 import Introduction from "./components/Introduction";

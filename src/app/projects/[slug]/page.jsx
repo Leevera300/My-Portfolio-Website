@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useLang } from "../../context/LangContext";
+import FunctionGrid from "../../components/project/FunctionGrid";
 
 export default function HorsePowerDetail() {
     const { lang } = useLang();
@@ -58,13 +59,7 @@ export default function HorsePowerDetail() {
             <h2 className="text-2xl font-semibold mb-2">
                 {lang === "en" ? "🧩 Detailed Features" : "🧩 주요 기능 설명"}
             </h2>
-            <Image
-              src="/images/horsepower-demo.png"
-              width={800}
-              height={400}
-              alt="HorsePower Screenshot"
-              className="rounded shadow"
-            />
+            <FunctionGrid />
           </div>
   
           {/* Links */}
