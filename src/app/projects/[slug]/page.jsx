@@ -40,7 +40,7 @@ export default function ProjectDetail({ params }) {
     <section className="max-w-[80%] mx-auto px-6 py-20">
       {/* Title + Description */}
       <div className="mb-10">
-        <h1 className="text-4xl font-bold mb-2">{project.title}</h1>
+        <h1 className="text-4xl font-bold mb-2">{project.title[lang]}</h1>
         <p className="text-gray-600">{project.description[lang]}</p>
       </div>
 

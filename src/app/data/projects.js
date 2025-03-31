@@ -1,6 +1,9 @@
 export const projects = {
   horsepower: {
-    title: "HorsePower",
+    title: {
+      en: "HorsePower (Sports Wear Online Store)",
+      ko: "HorsePower (스포츠 의류 온라인 쇼핑몰)",
+    },
     description: {
       en: "",
       ko: "",
@@ -24,7 +27,10 @@ export const projects = {
   },
 
   portfolio: {
-    title: "My Portfolio",
+    title: {
+      en: "My Portfolio",
+      ko: "포트폴리오",
+    },
     description: {
       en: "A responsive personal portfolio site built with Next.js and Tailwind CSS, featuring light/dark mode, language toggle, and detailed project pages.",
       ko: "Next.js와 Tailwind CSS로 제작된 반응형 개인 포트폴리오 사이트입니다. 라이트/다크 모드, 언어 전환, 프로젝트 상세 페이지 기능이 포함되어 있습니다.",
@@ -38,7 +44,7 @@ export const projects = {
       "AWS EC2",
     ],
     background: {
-      en: "I created this site to showcase my development work and track my growth as a software engineer. It’s designed to be lightweight, customizable, and easy to expand as I build more projects.",
+      en: "I created this site to showcase my development work and track my growth as a software engineer. It's designed to be lightweight, customizable, and easy to expand as I build more projects.",
       ko: "개발자로서의 성장 과정을 기록하고 작업물을 소개하기 위해 이 사이트를 만들었습니다. 가볍고, 확장 가능하며, 향후 다양한 프로젝트를 쉽게 추가할 수 있도록 설계했습니다.",
     },
     dbDesignImage: "", // or remove if N/A
