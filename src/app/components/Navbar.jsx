@@ -23,7 +23,7 @@ export default function Navbar() {
         </a>
         <button
           onClick={toggleLang}
-          className="bg-gray-300 text-xl px-2 py-1 rounded"
+          className="bg-gray-300 text-xl px-2 py-1 rounded "
         >
           {lang === "en" ? "KOR 🇰🇷" : "ENG 🇺🇸"}
         </button>
