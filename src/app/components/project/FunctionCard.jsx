@@ -105,12 +105,12 @@ export default function FunctionCard({
             alt={title[lang]}
             width={400}
             height={200}
-            className="w-full h-48 rounded mb-4 max-h-60 object-contain"
+            className="w-full h-60 rounded mb-4 max-h-60 object-contain pt-4"
           />
         )}
         <div className="p-6">
           <h3 className="text-2xl font-semibold mb-2">{title[lang]}</h3>
-          <p className="text-gray-600 mb-4">{description[lang]}</p>
+          <p className="text-gray-900 mb-4">{description[lang]}</p>
           <div className="flex items-center gap-2">
             <span
               className={`px-3 py-1 rounded-full text-sm ${
@@ -138,14 +138,14 @@ export default function FunctionCard({
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-xl p-6 w-2/3 mx-4 max-h-[90vh] overflow-y-auto"
+            className="bg-[#1a1f2b] rounded-xl p-6 w-2/3 mx-4 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">{title[lang]}</h2>
+              <h2 className="text-2xl font-bold text-white">{title[lang]}</h2>
               <button
                 onClick={closeModal}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-400 hover:text-gray-200"
               >
                 <svg
                   className="w-6 h-6"
@@ -175,25 +175,25 @@ export default function FunctionCard({
 
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-semibold mb-2">
+                <h3 className="text-2xl font-semibold mb-2 text-white">
                   {lang === "en" ? "Description" : "설명"}
                 </h3>
-                <p className="text-gray-600">{description[lang]}</p>
+                <p className="text-gray-200 text-xl">{description[lang]}</p>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold mb-2">
+                <h3 className="text-2xl font-semibold mb-2 text-white">
                   {lang === "en" ? "Details" : "상세 정보"}
                 </h3>
-                <div className="text-gray-600">{details[lang]}</div>
+                <div className="text-gray-200 text-xl">{details[lang]}</div>
               </div>
 
               {documentation && (
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">
+                  <h3 className="text-2xl font-semibold mb-2 text-white">
                     {lang === "en" ? "Documentation" : "문서"}
                   </h3>
-                  <div className="prose max-w-none">
+                  <div className="prose max-w-none text-gray-200 text-xl">
                     {renderMarkdown(processDocumentation(documentation[lang]))}
                   </div>
                 </div>

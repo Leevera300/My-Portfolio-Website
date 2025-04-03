@@ -1,6 +1,8 @@
 "use client";
 import { useLang } from "../../context/LangContext";
 import ProjectCard from "./ProjectCard";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function ProjectsSection() {
   const { lang } = useLang();
@@ -11,7 +13,7 @@ export default function ProjectsSection() {
         {lang === "en" ? "Projects" : "프로젝트"}
       </h2>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
         <ProjectCard
           title={lang === "en" ? "My Portfolio" : "마이 포트폴리오"}
           description={
@@ -49,7 +51,7 @@ export default function ProjectsSection() {
             "Apache Tomcat 9.0",
           ]}
           link="/projects/horsepower"
-          github="https://github.com/yourusername/klaps"
+          github="https://github.com/Leevera300/HorsePower-Sportswear#"
         />
       </div>
     </section>

@@ -6,10 +6,7 @@ export default function Introduction() {
   const { lang } = useLang();
 
   return (
-    <section
-      
-      className="flex flex-col items-center justify-center text-center space-y-6 py-20"
-    >
+    <section className="flex flex-col items-center justify-center text-center space-y-6 py-20">
       <h1 className="text-4xl md:text-4xl font-bold">
         {lang === "en" ? "Hi, I’m Michael 👋" : "안녕하세요, 마이클입니다 👋"}
       </h1>

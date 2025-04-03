@@ -54,7 +54,7 @@ export const functions = [
       
       ---
       
-      ### Google Login (Attempted)
+      Google Login (Attempted)
       
       - Tried implementing Google login through Spring Security, but ran into unexpected import issues.
       - As a workaround, used a direct \`<a>\` tag to initiate login.
@@ -63,7 +63,7 @@ export const functions = [
       ![Google Login Code]({media.googleLogin.image})
       `,
       ko: `
-      ### 회원가입
+      회원가입
 
       📽️ [회원가입 데모 영상]({media.signup.video})
       
@@ -75,7 +75,7 @@ export const functions = [
       
       ---
       
-      ### 로그인
+      로그인
 
       📽️ [로그인 데모 영상]({media.login.video})
       
@@ -84,7 +84,7 @@ export const functions = [
       
       ![로그인 코드]({media.login.image})
       
-      ### 구글 로그인 (시도)
+      구글 로그인 (시도)
       
       - Spring Security로 구글 로그인을 구현하려 했지만, 설정 중 import 오류가 발생했습니다.
       - 우회 방법으로 \`<a>\` 태그를 사용해 로그인을 시도했습니다.
@@ -111,7 +111,7 @@ export const functions = [
     },
     documentation: {
       en: `
-      ### Homepage
+      Homepage
       
       📽️ [Homepage Demo (Video)](images/horsepower/horsepower-products-main-vid1.mp4)
       
@@ -126,7 +126,7 @@ export const functions = [
       
       ---
       
-      ### Product Detail View
+      Product Detail View
       
       - Product details are loaded using a product ID via \`@GetMapping\`.
       - The same \`ProductInfo\` domain is used to simplify passing multiple related data points to the view.
@@ -134,7 +134,7 @@ export const functions = [
       ![Product Detail](/images/horsepower/horsepower-products-main-2.png)
       `,
       ko: `
-      ### 홈페이지
+      홈페이지
       
       📽️ [홈페이지 데모 영상](images/horsepower/horsepower-products-main-vid1.mp4)
       
@@ -148,7 +148,7 @@ export const functions = [
       
       ---
       
-      ### 상품 상세조회
+      상품 상세조회
       
       - \`@GetMapping\`을 사용해 productId 기반으로 상품 정보를 가져옵니다.
       - 위와 동일하게 \`ProductInfo\` 객체를 사용해 여러 데이터를 간편하게 전달합니다.
@@ -174,7 +174,7 @@ export const functions = [
     },
     documentation: {
       en: `
-      ### Add to Cart
+      Add to Cart
       
       📽️ [Add to Cart Demo (Video)](/images/horsepower/horsepower-cart-vid1.mp4)
       
@@ -187,7 +187,7 @@ export const functions = [
       
       ---
       
-      ### Update Cart
+      Update Cart
       
       - Quantity and items in the cart can be edited before checkout.
       - Updates are linked to the \`checkoutId\` and passed when the "Proceed to Pay" button is clicked.
@@ -200,13 +200,13 @@ export const functions = [
       
       ---
       
-      ### Improvements for Later
+      Improvements for Later
       
       - Currently, the cart requires a logged-in user.
       - Later, I plan to allow non-members to use the cart by storing temporary session data, which could be merged with a user account after login or sign-up.
       `,
       ko: `
-      ### 장바구니 담기
+      장바구니 담기
       
       📽️ [장바구니 담기 데모 영상](/images/horsepower/horsepower-cart-vid1.mp4)
       
@@ -219,7 +219,7 @@ export const functions = [
       
       ---
       
-      ### 장바구니 수정
+      장바구니 수정
       
       - 결제 전 상품 수량을 조정하거나 삭제할 수 있습니다.
       - 변경된 수량은 \`checkoutId\`를 기준으로 업데이트되며 결제 시 적용됩니다.
@@ -232,7 +232,7 @@ export const functions = [
       
       ---
       
-      ### 추후 개선점
+      추후 개선점
       
       - 현재는 로그인한 사용자만 장바구니를 사용할 수 있습니다.
       - 추후 비회원도 사용 가능하게 하여, 로그인 또는 회원가입 후 기존 세션의 장바구니를 연동할 수 있도록 개선할 예정입니다.
@@ -257,7 +257,7 @@ export const functions = [
     },
     documentation: {
       en: `
-      ### Payment Page
+      Payment Page
       
       - Users enter delivery and billing addresses.
       - If both are the same, billing info is auto-filled by checking a box.
@@ -269,7 +269,7 @@ export const functions = [
       
       ---
       
-      ### Saving Orders
+      Saving Orders
       
       - All form data is submitted using \`@RequestBody\` and sent to a RestController.
       - After saving the order, inventory is updated to reflect the number of items purchased.
@@ -279,7 +279,7 @@ export const functions = [
       
       ---
       
-      ### Transaction Handling
+      Transaction Handling
       
       - \`@Transactional\` ensures all steps complete successfully, or nothing is saved.
       - Once the order is saved, values from the checkout table are moved to the order table, and the original checkout entries are deleted.
@@ -289,7 +289,7 @@ export const functions = [
       ![Order Number Logic](/images/horsepower/horsepower-pay3.png)
       `,
       ko: `
-      ### 결제 페이지
+      결제 페이지
       
       - 사용자는 배송지와 청구지 주소를 입력합니다.
       - 두 주소가 같으면 체크박스로 청구지에 배송지 정보를 자동 복사합니다.
@@ -301,7 +301,7 @@ export const functions = [
       
       ---
       
-      ### 주문 저장
+      주문 저장
       
       - 모든 데이터는 \`@RequestBody\`로 한번에 RestController로 전송됩니다.
       - 주문이 저장되면, 해당 수량만큼 재고가 차감됩니다.
@@ -311,7 +311,7 @@ export const functions = [
       
       ---
       
-      ### 트랜잭션 처리
+      트랜잭션 처리
       
       - \`@Transactional\`을 사용해 모든 단계가 완료되지 않으면 데이터가 저장되지 않도록 설정했습니다.
       - 주문이 성공적으로 저장되면 checkout 테이블의 값들이 order 테이블로 이동하고, 기존 항목은 삭제됩니다.
@@ -340,7 +340,7 @@ export const functions = [
     },
     documentation: {
       en: `
-      ### Admin Dashboard
+      Admin Dashboard
       
       📷 
       ![Admin Page Screenshot](/images/horsepower/horsepower-admin.png)
@@ -351,7 +351,7 @@ export const functions = [
       
       ---
       
-      ### Product Registration
+      Product Registration
       
       📷 
       ![Product Form 1](/images/horsepower/horsepower-admin1.png)
@@ -366,7 +366,7 @@ export const functions = [
       ![Product Upload Code](/images/horsepower/horsepower-admin3.png)
       `,
       ko: `
-      ### 관리자 대시보드
+      관리자 대시보드
       
       📷 
       ![관리자 페이지 스크린샷](/images/horsepower/horsepower-admin.png)
@@ -377,7 +377,7 @@ export const functions = [
       
       ---
       
-      ### 상품 등록
+      상품 등록
       
       📷 
       ![상품 등록 폼 1](/images/horsepower/horsepower-admin1.png)

@@ -11,48 +11,45 @@ export default function AboutSection() {
         {lang === "en" ? "About Me" : "소개"}
       </h1>
 
-      <div className="space-y-4 text-lg text-gray-700 dark:text-gray-300 mt-5">
+      <div className="space-y-4 text-lg text-white mt-5">
         {lang === "en" ? (
           <>
             <p>
-              Hey! I’m Michael — part Korean, part Puerto Rican-American, and
-              currently living in Korea.
+              Hey, I’m Michael. I’m a developer who’s equally curious about
+              front-end and back-end — my interest in coding started with a
+              simple question: <em>how do websites actually work?</em>
             </p>
             <p>
-              Over the years, I’ve worn a few hats: soldier, paralegal, EMT,
-              English teacher, and now, software developer. What ties it all
-              together is a love for solving problems and helping people —
-              whether through teaching, building tools, or creating something
-              that just works.
+              I enjoy building clean, intuitive applications that are actually
+              useful — not just flashy. I care about performance, accessibility,
+              and writing code that makes sense to others (and to my future
+              self). I’m the kind of person who asks “does this really help the
+              user?” before adding a feature.
             </p>
             <p>
-              I’m the type to get lost in a side project just because it feels
-              fun and meaningful. I like clean code, simple interfaces, and work
-              that’s actually useful.
+              When I’m not coding, I’m usually diving into personal projects,
+              journaling ideas, playing basketball 🏀, or learning something new
+              — whether it’s a tech concept or a random trivia rabbit hole. I
+              like building, reflecting, and growing one step at a time.
             </p>
-            <p>
-              Outside of work, you’ll usually find me playing basketball 🏀,
-              diving into new ideas, or organizing language exchange events with
-              KLAPS — a community I help run here in Korea.
-            </p>
-            <p>If that sounds like someone you’d want to work with or get to know, let’s connect.</p>
           </>
         ) : (
           <>
             <p>
-              안녕하세요! 저는 한국과 푸에르토리코-미국 혼혈인 마이클입니다. 지금은 한국에서 거주 중이에요.
+              안녕하세요, 마이클입니다. 프론트엔드와 백엔드 모두에 관심이 많은
+              개발자로, 웹사이트가 어떻게 작동하는지에 대한 단순한 호기심이
+              코딩을 시작하게 된 계기였습니다.
             </p>
             <p>
-              그동안 다양한 일을 해왔어요: 군 복무, 군 법무병(Paralegal), 응급구조사(EMT), 영어 교사, 그리고 지금은 소프트웨어 개발자로 일하고 있습니다. 공통점은 문제를 해결하고 사람들을 돕는 걸 좋아한다는 점이에요 — 가르치든, 무언가를 만들든, 실용적인 도구를 만드는 것이 저를 움직입니다.
+              화려함보다는 실용적인, 깔끔하고 직관적인 웹 애플리케이션을 만드는
+              것을 지향하며, 성능과 접근성은 물론 코드의 가독성과 유지보수성도
+              중요하게 생각합니다. 기능을 추가하기 전 항상 “이게 사용자에게 진짜
+              도움이 될까?”를 먼저 고민합니다.
             </p>
             <p>
-              재미있고 의미 있는 프로젝트라면 밤새 몰입하기도 해요. 저는 깔끔한 코드, 단순한 UI, 그리고 실제로 도움이 되는 작업을 선호합니다.
-            </p>
-            <p>
-              업무 외 시간에는 보통 농구를 하거나 🏀, 새로운 아이디어를 탐구하거나, 제가 운영하는 KLAPS라는 언어 교류 커뮤니티 활동을 하고 있어요.
-            </p>
-            <p>
-              저와 함께 일하거나 더 알고 싶으시다면, 언제든지 편하게 연락 주세요!
+              코딩을 하지 않을 땐 개인 프로젝트에 몰두하거나, 새로운 아이디어를
+              정리하거나, 농구를 하거나 🏀, 흥미로운 주제를 찾아 끝없이 파고드는
+              편입니다. 조금씩 꾸준히 배우고 성장하는 것을 좋아합니다.
             </p>
           </>
         )}
@@ -60,4 +57,3 @@ export default function AboutSection() {
     </section>
   );
 }
-

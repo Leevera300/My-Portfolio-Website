@@ -3,100 +3,106 @@ import { useState } from "react";
 import { useLang } from "../context/LangContext";
 
 export default function ContactSection() {
-  const [status, setStatus] = useState("idle");
-  const { lang } = useLang(); // ✅ Get current language
+  const { lang } = useLang();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus("sending");
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch("https://formspree.io/f/mqapbbpv", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
-        body: formData,
+    // Here you would typically send the form data to your backend
+    // For now, we'll just simulate a successful submission
+    if (formData.name && formData.email && formData.message) {
+      setIsSubmitted(true);
+      setError("");
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
       });
-
-      if (response.ok) {
-        form.reset();
-        setStatus("success");
-      } else {
-        setStatus("error");
-      }
-    } catch (error) {
-      setStatus("error");
+    } else {
+      setError(
+        lang === "en" ? "Please fill in all fields" : "모든 필드를 입력해주세요"
+      );
     }
   };
 
   return (
     <section id="contact" className="px-6 py-20 max-w-3xl mx-auto text-center">
       <h2 className="text-4xl font-bold mb-8">
-        {lang === "en" ? "Contact Me" : "연락하기"}
+        {lang === "en" ? "Get in Touch" : "연락하기"}
       </h2>
 
-      {status === "success" ? (
-        <p className="text-green-600 dark:text-green-400 text-lg">
+      {isSubmitted ? (
+        <p className="text-green-400 text-lg">
           {lang === "en"
-            ? "✅ Message sent! I’ll get back to you soon."
-            : "✅ 메시지가 전송되었습니다! 곧 연락드릴게요."}
+            ? "Thank you for your message! I'll get back to you soon."
+            : "메시지를 보내주셔서 감사합니다! 곧 답변 드리겠습니다."}
         </p>
       ) : (
         <>
-          <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          <p className="text-lg text-gray-200 mb-6">
             {lang === "en"
-              ? "Have a question or want to connect? I’d love to hear from you!"
-              : "질문이 있거나 연락하고 싶으신가요? 언제든지 환영입니다!"}
+              ? "Have a question or want to work together? Feel free to reach out!"
+              : "궁금한 점이 있거나 함께 일하고 싶으신가요? 언제든지 연락해주세요!"}
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-            <input
-              type="text"
-              name="name"
-              placeholder={lang === "en" ? "Your Name" : "이름"}
-              required
-              className="px-4 py-3 rounded border dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder={lang === "en" ? "Your Email" : "이메일"}
-              required
-              className="px-4 py-3 rounded border dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-            />
-            <textarea
-              name="message"
-              rows="5"
-              placeholder={lang === "en" ? "Your Message" : "메시지"}
-              required
-              className="px-4 py-3 rounded border dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-            />
+          <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
+            <div>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder={lang === "en" ? "Your Name" : "이름"}
+                className="w-full px-4 py-3 rounded border border-gray-600 bg-[#1a1f2b] text-white"
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder={lang === "en" ? "Your Email" : "이메일"}
+                className="w-full px-4 py-3 rounded border border-gray-600 bg-[#1a1f2b] text-white"
+                required
+              />
+            </div>
+            <div>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder={lang === "en" ? "Your Message" : "메시지"}
+                rows="5"
+                className="w-full px-4 py-3 rounded border border-gray-600 bg-[#1a1f2b] text-white"
+                required
+              ></textarea>
+            </div>
             <button
               type="submit"
-              disabled={status === "sending"}
               className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition"
             >
-              {status === "sending"
-                ? lang === "en"
-                  ? "Sending..."
-                  : "보내는 중..."
-                : lang === "en"
-                ? "Send Message"
-                : "메시지 보내기"}
+              {lang === "en" ? "Send Message" : "메시지 보내기"}
             </button>
           </form>
 
-          {status === "error" && (
-            <p className="text-red-600 dark:text-red-400 mt-4">
-              {lang === "en"
-                ? "❌ Something went wrong. Please try again later."
-                : "❌ 문제가 발생했습니다. 잠시 후 다시 시도해주세요."}
-            </p>
-          )}
+          {error && <p className="text-red-400 mt-4">{error}</p>}
         </>
       )}
     </section>
