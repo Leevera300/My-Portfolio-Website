@@ -32,8 +32,8 @@ export const projects = {
       ko: "포트폴리오",
     },
     description: {
-      en: "A responsive personal portfolio site built with Next.js and Tailwind CSS, featuring light/dark mode, language toggle, and detailed project pages.",
-      ko: "Next.js와 Tailwind CSS로 제작된 반응형 개인 포트폴리오 사이트입니다. 라이트/다크 모드, 언어 전환, 프로젝트 상세 페이지 기능이 포함되어 있습니다.",
+      en: "",
+      ko: "",
     },
     techStack: [
       "Next.js",

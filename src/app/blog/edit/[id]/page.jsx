@@ -2,25 +2,25 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useLang } from "../../../context/LangContext";
 import { useAuth } from "../../../context/AuthContext";
 import { supabase } from "../../../../../lib/supabaseClient";
+import React from "react";
 
-export default function EditPostPage({ params }) {
-  const [title, setTitle] = useState({ en: "", ko: "" });
-  const [excerpt, setExcerpt] = useState({ en: "", ko: "" });
-  const [content, setContent] = useState({ en: "", ko: "" });
-  const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [currentImage, setCurrentImage] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState(null);
-  const { isLoggedIn, checkAuth, user } = useAuth();
+export default function EditBlogPostPage({ params }) {
   const router = useRouter();
-  const { id } = params;
+  const { lang } = useLang();
+  const { isLoggedIn, checkAuth, user } = useAuth();
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Get the post ID using React.use()
+  const postId = React.use(params).id;
 
   useEffect(() => {
-    // Check if user is authenticated
+    // Check authentication
     if (!checkAuth()) {
       router.push("/login");
       return;
@@ -32,7 +32,7 @@ export default function EditPostPage({ params }) {
         const { data, error } = await supabase
           .from("blog_posts")
           .select("*")
-          .eq("id", id)
+          .eq("id", postId)
           .single();
 
         if (error) {
@@ -40,49 +40,40 @@ export default function EditPostPage({ params }) {
         }
 
         if (!data) {
-          setError("Post not found");
-          return;
+          throw new Error("Post not found");
         }
 
-        // Check if the user is the owner of the post
-        if (data.user_id !== user.id) {
-          setError("You don't have permission to edit this post");
-          return;
-        }
-
-        setTitle({
-          en: data.title_en || "",
-          ko: data.title_ko || "",
+        setPost({
+          id: data.id,
+          title: {
+            en: data.title_en,
+            ko: data.title_ko,
+          },
+          excerpt: {
+            en: data.excerpt_en,
+            ko: data.excerpt_ko,
+          },
+          content: {
+            en: data.content_en,
+            ko: data.content_ko,
+          },
+          image: data.image,
         });
-        setExcerpt({
-          en: data.excerpt_en || "",
-          ko: data.excerpt_ko || "",
-        });
-        setContent({
-          en: data.content_en || "",
-          ko: data.content_ko || "",
-        });
-        setCurrentImage(data.image);
       } catch (error) {
         console.error("Error fetching post:", error);
-        setError("Failed to load post. Please try again.");
+        setError("Failed to load post. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchPost();
-  }, [id, checkAuth, router, user]);
+  }, [postId, checkAuth, router]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setPost({ ...post, image: URL.createObjectURL(file) });
     }
   };
 
@@ -96,52 +87,23 @@ export default function EditPostPage({ params }) {
     }
 
     try {
-      setSaving(true);
+      setIsSaving(true);
       setError(null);
 
-      let imageUrl = currentImage;
-      if (image) {
-        // Upload image to Supabase Storage
-        const fileExt = image.name.split(".").pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        // Fix the path to avoid the double blog-images prefix
-        const filePath = fileName;
-
-        console.log("Uploading image to:", filePath);
-
-        const { error: uploadError, data } = await supabase.storage
-          .from("blog-images")
-          .upload(filePath, image);
-
-        if (uploadError) {
-          console.error("Image upload error:", uploadError);
-          throw uploadError;
-        }
-
-        // Get the public URL of the uploaded image
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("blog-images").getPublicUrl(filePath);
-
-        imageUrl = publicUrl;
-        console.log("Image uploaded successfully:", imageUrl);
-      }
-
       // Update the blog post
-      const { data: post, error: updateError } = await supabase
+      const { data: updatedPost, error: updateError } = await supabase
         .from("blog_posts")
         .update({
-          title_en: title.en,
-          title_ko: title.ko,
-          excerpt_en: excerpt.en,
-          excerpt_ko: excerpt.ko,
-          content_en: content.en,
-          content_ko: content.ko,
-          image: imageUrl,
-          slug: title.en.toLowerCase().replace(/\s+/g, "-"),
+          title_en: post.title.en,
+          title_ko: post.title.ko,
+          excerpt_en: post.excerpt.en,
+          excerpt_ko: post.excerpt.ko,
+          content_en: post.content.en,
+          content_ko: post.content.ko,
+          image: post.image,
           user_id: user.id, // Ensure user_id is included
         })
-        .eq("id", id)
+        .eq("id", postId)
         .select();
 
       if (updateError) {
@@ -149,7 +111,7 @@ export default function EditPostPage({ params }) {
         throw updateError;
       }
 
-      console.log("Post updated successfully:", post);
+      console.log("Post updated successfully:", updatedPost);
 
       // Redirect to the blog page
       router.push("/blog");
@@ -157,7 +119,7 @@ export default function EditPostPage({ params }) {
       console.error("Error updating post:", error);
       setError("Failed to update post. Please try again.");
     } finally {
-      setSaving(false);
+      setIsSaving(false);
     }
   };
 
@@ -206,8 +168,10 @@ export default function EditPostPage({ params }) {
           </label>
           <input
             type="text"
-            value={title.en}
-            onChange={(e) => setTitle({ ...title, en: e.target.value })}
+            value={post.title.en}
+            onChange={(e) =>
+              setPost({ ...post, title: { ...post.title, en: e.target.value } })
+            }
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
             required
           />
@@ -219,8 +183,10 @@ export default function EditPostPage({ params }) {
           </label>
           <input
             type="text"
-            value={title.ko}
-            onChange={(e) => setTitle({ ...title, ko: e.target.value })}
+            value={post.title.ko}
+            onChange={(e) =>
+              setPost({ ...post, title: { ...post.title, ko: e.target.value } })
+            }
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
             required
           />
@@ -231,8 +197,13 @@ export default function EditPostPage({ params }) {
             Excerpt (English)
           </label>
           <textarea
-            value={excerpt.en}
-            onChange={(e) => setExcerpt({ ...excerpt, en: e.target.value })}
+            value={post.excerpt.en}
+            onChange={(e) =>
+              setPost({
+                ...post,
+                excerpt: { ...post.excerpt, en: e.target.value },
+              })
+            }
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
             rows="3"
             required
@@ -244,8 +215,13 @@ export default function EditPostPage({ params }) {
             Excerpt (Korean)
           </label>
           <textarea
-            value={excerpt.ko}
-            onChange={(e) => setExcerpt({ ...excerpt, ko: e.target.value })}
+            value={post.excerpt.ko}
+            onChange={(e) =>
+              setPost({
+                ...post,
+                excerpt: { ...post.excerpt, ko: e.target.value },
+              })
+            }
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
             rows="3"
             required
@@ -257,8 +233,13 @@ export default function EditPostPage({ params }) {
             Content (English)
           </label>
           <textarea
-            value={content.en}
-            onChange={(e) => setContent({ ...content, en: e.target.value })}
+            value={post.content.en}
+            onChange={(e) =>
+              setPost({
+                ...post,
+                content: { ...post.content, en: e.target.value },
+              })
+            }
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
             rows="10"
             required
@@ -270,8 +251,13 @@ export default function EditPostPage({ params }) {
             Content (Korean)
           </label>
           <textarea
-            value={content.ko}
-            onChange={(e) => setContent({ ...content, ko: e.target.value })}
+            value={post.content.ko}
+            onChange={(e) =>
+              setPost({
+                ...post,
+                content: { ...post.content, ko: e.target.value },
+              })
+            }
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
             rows="10"
             required
@@ -282,13 +268,9 @@ export default function EditPostPage({ params }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Featured Image
           </label>
-          {currentImage && !imagePreview && (
+          {post.image && (
             <div className="mt-2 mb-4">
-              <img
-                src={currentImage}
-                alt="Current"
-                className="max-w-xs h-auto"
-              />
+              <img src={post.image} alt="Current" className="max-w-xs h-auto" />
             </div>
           )}
           <input
@@ -297,15 +279,6 @@ export default function EditPostPage({ params }) {
             onChange={handleImageChange}
             className="w-full"
           />
-          {imagePreview && (
-            <div className="mt-2">
-              <img
-                src={imagePreview}
-                alt="Preview"
-                className="max-w-xs h-auto"
-              />
-            </div>
-          )}
         </div>
 
         <div className="flex justify-end space-x-4">
@@ -318,10 +291,10 @@ export default function EditPostPage({ params }) {
           </button>
           <button
             type="submit"
-            disabled={saving}
+            disabled={isSaving}
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
           >
-            {saving ? "Saving..." : "Update Post"}
+            {isSaving ? "Saving..." : "Update Post"}
           </button>
         </div>
       </form>

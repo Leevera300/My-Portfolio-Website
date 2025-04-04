@@ -65,8 +65,11 @@ export default function NewPostPage() {
           const filePath = fileName;
 
           console.log("Uploading image to:", filePath);
+          console.log("Image file:", image);
+          console.log("Storage bucket: blog-images");
 
-          const { error: uploadError, data } = await supabase.storage
+          // Try to upload the file with a simpler approach
+          const { data, error: uploadError } = await supabase.storage
             .from("blog-images")
             .upload(filePath, image);
 
@@ -84,36 +87,71 @@ export default function NewPostPage() {
           console.log("Image uploaded successfully:", imageUrl);
         } catch (error) {
           console.error("Detailed upload error:", error);
-          throw new Error(`Image upload failed: ${error.message}`);
+          throw new Error(
+            `Image upload failed: ${error.message || "Unknown error"}`
+          );
         }
       }
 
       // Create the blog post with user_id
-      const { data: post, error: insertError } = await supabase
-        .from("blog_posts")
-        .insert([
-          {
-            title_en: title.en,
-            title_ko: title.ko,
-            excerpt_en: excerpt.en,
-            excerpt_ko: excerpt.ko,
-            content_en: content.en,
-            content_ko: content.ko,
-            image: imageUrl,
-            user_id: currentUser.id,
-          },
-        ])
-        .select();
+      try {
+        console.log("Creating blog post with data:", {
+          title_en: title.en,
+          title_ko: title.ko,
+          excerpt_en: excerpt.en,
+          excerpt_ko: excerpt.ko,
+          content_en: content.en,
+          content_ko: content.ko,
+          image: imageUrl,
+          user_id: currentUser.id,
+        });
 
-      if (insertError) {
-        console.error("Error inserting post:", insertError);
-        throw new Error(`Failed to create post: ${insertError.message}`);
+        // First, verify the user exists in admin_users
+        const { data: adminUser, error: adminError } = await supabase
+          .from("admin_users")
+          .select("id")
+          .eq("id", currentUser.id)
+          .single();
+
+        if (adminError) {
+          console.error("Error verifying admin user:", adminError);
+          throw new Error("Failed to verify admin user");
+        }
+
+        if (!adminUser) {
+          throw new Error("Admin user not found");
+        }
+
+        // Now create the blog post
+        const { data: post, error: insertError } = await supabase
+          .from("blog_posts")
+          .insert([
+            {
+              title_en: title.en,
+              title_ko: title.ko,
+              excerpt_en: excerpt.en,
+              excerpt_ko: excerpt.ko,
+              content_en: content.en,
+              content_ko: content.ko,
+              image: imageUrl,
+              user_id: currentUser.id,
+            },
+          ])
+          .select();
+
+        if (insertError) {
+          console.error("Error inserting post:", insertError);
+          throw new Error(`Failed to create post: ${insertError.message}`);
+        }
+
+        console.log("Post created successfully:", post);
+
+        // Redirect to the blog page
+        router.push("/blog");
+      } catch (error) {
+        console.error("Error creating post:", error);
+        throw new Error(`Failed to create post: ${error.message}`);
       }
-
-      console.log("Post created successfully:", post);
-
-      // Redirect to the blog page
-      router.push("/blog");
     } catch (error) {
       console.error("Error creating post:", error);
       setError(error.message || "Failed to create post. Please try again.");

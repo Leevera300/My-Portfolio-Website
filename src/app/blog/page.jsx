@@ -91,6 +91,11 @@ export default function BlogPage() {
     }
   };
 
+  const handleDeletePost = (postId) => {
+    setPosts(posts.filter((post) => post.id !== postId));
+    setFilteredPosts(filteredPosts.filter((post) => post.id !== postId));
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -158,7 +163,7 @@ export default function BlogPage() {
         ) : (
           <div className="grid gap-8">
             {filteredPosts.map((post) => (
-              <BlogCard key={post.id} post={post} />
+              <BlogCard key={post.id} post={post} onDelete={handleDeletePost} />
             ))}
           </div>
         )}

@@ -109,25 +109,10 @@ export default function FunctionCard({
           />
         )}
         <div className="p-6">
-          <h3 className="text-2xl font-semibold mb-2">{title[lang]}</h3>
-          <p className="text-gray-900 mb-4">{description[lang]}</p>
-          <div className="flex items-center gap-2">
-            <span
-              className={`px-3 py-1 rounded-full text-sm ${
-                availability
-                  ? "bg-green-100 text-green-800"
-                  : "bg-red-100 text-red-800"
-              }`}
-            >
-              {availability
-                ? lang === "en"
-                  ? "Available"
-                  : "사용 가능"
-                : lang === "en"
-                ? "Unavailable"
-                : "사용 불가"}
-            </span>
-          </div>
+          <h3 className="text-2xl text-gray-900 font-semibold mb-2">
+            {title[lang]}
+          </h3>
+          <p className="text-gray-900 mb-4 text-lg">{description[lang]}</p>
         </div>
       </div>
 
@@ -198,24 +183,6 @@ export default function FunctionCard({
                   </div>
                 </div>
               )}
-
-              <div className="pt-4 border-t">
-                <span
-                  className={`px-3 py-1 rounded-full text-sm ${
-                    availability
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
-                  }`}
-                >
-                  {availability
-                    ? lang === "en"
-                      ? "Available"
-                      : "사용 가능"
-                    : lang === "en"
-                    ? "Unavailable"
-                    : "사용 불가"}
-                </span>
-              </div>
             </div>
           </div>
         </div>

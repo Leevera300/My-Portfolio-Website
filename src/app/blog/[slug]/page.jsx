@@ -55,7 +55,7 @@ export default function BlogPostPage() {
               en: foundPost.content_en || "",
               ko: foundPost.content_ko || "",
             },
-            image: foundPost.image || "/images/blog/default.jpg",
+            image: foundPost.image || "",
             slug: slug,
           };
           setPost(transformedPost);
@@ -80,37 +80,50 @@ export default function BlogPostPage() {
   }, [slug, lang]);
 
   const handleDelete = async () => {
-    if (!post || !isLoggedIn) return;
-
     if (
-      window.confirm(
+      !window.confirm(
         lang === "en"
           ? "Are you sure you want to delete this post?"
           : "이 게시물을 삭제하시겠습니까?"
       )
     ) {
-      try {
-        setIsDeleting(true);
-        const { error } = await supabase
-          .from("blog_posts")
-          .delete()
-          .eq("id", post.id);
+      return;
+    }
 
-        if (error) {
-          throw error;
+    try {
+      setIsDeleting(true);
+
+      // If the post has an image, delete it from storage first
+      if (post.image) {
+        // Extract the file path from the URL
+        const imagePath = post.image.split("/").pop();
+        const { error: storageError } = await supabase.storage
+          .from("blog-images")
+          .remove([imagePath]);
+
+        if (storageError) {
+          console.error("Error deleting image:", storageError);
+          // Continue with post deletion even if image deletion fails
         }
-
-        // Redirect to blog page after successful deletion
-        router.push("/blog");
-      } catch (error) {
-        console.error("Error deleting post:", error);
-        setError(
-          lang === "en"
-            ? "Error deleting post"
-            : "게시물 삭제 중 오류가 발생했습니다"
-        );
-        setIsDeleting(false);
       }
+
+      // Delete the post from Supabase
+      const { error } = await supabase
+        .from("blog_posts")
+        .delete()
+        .eq("id", post.id);
+
+      if (error) {
+        throw error;
+      }
+
+      // Redirect to the blog page after successful deletion
+      router.push("/blog");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      alert(lang === "en" ? "Failed to delete post" : "게시물 삭제 실패");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -170,10 +183,10 @@ export default function BlogPostPage() {
         <div className="flex justify-between items-center mb-8">
           <Link
             href="/blog"
-            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors"
+            className="text-blue-400 hover:text-blue-300 transition-colors flex items-center text-2xl"
           >
             <svg
-              className="w-4 h-4 mr-1"
+              className="w-5 h-5 mr-2"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -186,17 +199,17 @@ export default function BlogPostPage() {
                 d="M10 19l-7-7m0 0l7-7m-7 7h18"
               />
             </svg>
-            <span>{lang === "en" ? "Back to Blog" : "블로그로 돌아가기"}</span>
+            {lang === "en" ? "Back to Blog" : "블로그로 돌아가기"}
           </Link>
 
           {isLoggedIn && (
-            <div className="flex space-x-3">
+            <div className="flex space-x-4">
               <Link
                 href={`/blog/edit/${post.id}`}
-                className="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
               >
                 <svg
-                  className="w-4 h-4 mr-1"
+                  className="w-5 h-5 mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -209,20 +222,18 @@ export default function BlogPostPage() {
                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                   />
                 </svg>
-                <span>{lang === "en" ? "Edit" : "수정"}</span>
+                {lang === "en" ? "Edit" : "수정"}
               </Link>
 
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className={`inline-flex items-center bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors ${
-                  isDeleting ? "opacity-70 cursor-not-allowed" : ""
-                }`}
+                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center"
               >
                 {isDeleting ? (
                   <>
                     <svg
-                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                      className="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -241,12 +252,12 @@ export default function BlogPostPage() {
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       ></path>
                     </svg>
-                    <span>{lang === "en" ? "Deleting..." : "삭제 중..."}</span>
+                    {lang === "en" ? "Deleting..." : "삭제 중..."}
                   </>
                 ) : (
                   <>
                     <svg
-                      className="w-4 h-4 mr-1"
+                      className="w-5 h-5 mr-2"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -259,7 +270,7 @@ export default function BlogPostPage() {
                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                       />
                     </svg>
-                    <span>{lang === "en" ? "Delete" : "삭제"}</span>
+                    {lang === "en" ? "Delete" : "삭제"}
                   </>
                 )}
               </button>
@@ -286,7 +297,7 @@ export default function BlogPostPage() {
             <div className="prose prose-invert max-w-none">
               {paragraphs.length > 0 ? (
                 paragraphs.map((paragraph, index) => (
-                  <p key={index} className="text-gray-200 mb-4">
+                  <p key={index} className="text-gray-200 mb-4 text-xl">
                     {paragraph}
                   </p>
                 ))

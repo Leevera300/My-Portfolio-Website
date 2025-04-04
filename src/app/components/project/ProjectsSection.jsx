@@ -9,7 +9,7 @@ export default function ProjectsSection() {
 
   return (
     <section id="projects" className="py-20 px-6 text-center">
-      <h2 className="text-3xl md:text-4xl font-bold mb-10">
+      <h2 className="text-4xl md:text-4xl font-bold mb-10">
         {lang === "en" ? "Projects" : "프로젝트"}
       </h2>
 

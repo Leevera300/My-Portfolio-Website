@@ -1,10 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useLang } from "../context/LangContext";
+import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { lang, toggleLang } = useLang();
+  const { isLoggedIn, logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/");
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-[#0d1117] text-white shadow flex items-center justify-between px-6 py-4">
@@ -31,9 +40,17 @@ export default function Navbar() {
         <Link href="/contact" className="text-xl text-gray-300 hover:underline">
           {lang === "en" ? "Contact" : "연락처"}
         </Link>
+        {isLoggedIn && (
+          <button
+            onClick={handleLogout}
+            className="text-xl text-gray-300 hover:underline"
+          >
+            {lang === "en" ? "Sign Out" : "로그아웃"}
+          </button>
+        )}
         <button
           onClick={toggleLang}
-          className="bg-[#38bdf8]  text-xl px-2 py-1 rounded "
+          className="bg-[#38bdf8] text-xl px-2 py-1 rounded"
         >
           {lang === "en" ? "KOR 🇰🇷" : "ENG 🇺🇸"}
         </button>

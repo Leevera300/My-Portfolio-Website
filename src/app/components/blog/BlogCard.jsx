@@ -3,23 +3,67 @@
 import { useState } from "react";
 import { useLang } from "../../context/LangContext";
 import Link from "next/link";
+import { useAuth } from "../../context/AuthContext";
+import { supabase } from "../../../../lib/supabaseClient";
 
-export default function BlogCard({ post }) {
+export default function BlogCard({ post, onDelete }) {
   const { lang } = useLang();
+  const { isLoggedIn } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
+  const handleDelete = async () => {
+    if (
+      !window.confirm(
+        lang === "en"
+          ? "Are you sure you want to delete this post?"
+          : "이 게시물을 삭제하시겠습니까?"
+      )
+    ) {
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+
+      // Delete the post from Supabase
+      const { error } = await supabase
+        .from("blog_posts")
+        .delete()
+        .eq("id", post.id);
+
+      if (error) {
+        throw error;
+      }
+
+      // Call the onDelete callback to update the parent component's state
+      onDelete(post.id);
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      alert(lang === "en" ? "Failed to delete post" : "게시물 삭제 실패");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
-    <div className="bg-[#1a1f2b] rounded-xl shadow-lg overflow-hidden">
+    <Link
+      href={`/blog/${post.slug}`}
+      className="bg-[#1a1f2b] rounded-xl shadow-lg overflow-hidden"
+    >
       <div className="md:flex">
         <div className="md:flex-shrink-0">
           <img
             className="h-48 w-full object-cover md:w-48"
-            src={post.image || "/images/blog/default.jpg"}
-            alt={post.title[lang]}
+            src={
+              post.image ||
+              "https://via.placeholder.com/600x400/1a1f2b/ffffff?text=Blog+Post"
+            }
+            alt={post.title[lang] || "Blog post image"}
           />
         </div>
         <div className="p-6 w-full">
@@ -29,42 +73,6 @@ export default function BlogCard({ post }) {
                 {post.title[lang]}
               </h2>
             </div>
-            <button
-              onClick={toggleExpand}
-              className="text-blue-400 hover:text-blue-300 transition-colors"
-            >
-              {isExpanded ? (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 15l7-7 7 7"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              )}
-            </button>
           </div>
 
           <p className="text-gray-200 mb-4">{post.excerpt[lang]}</p>
@@ -80,31 +88,8 @@ export default function BlogCard({ post }) {
               </div>
             </div>
           )}
-
-          <div className="mt-4">
-            <Link
-              href={`/blog/${post.slug}`}
-              className="text-blue-400 hover:text-blue-300 transition-colors inline-flex items-center"
-            >
-              <span>{lang === "en" ? "Read more" : "더 읽기"}</span>
-              <svg
-                className="w-4 h-4 ml-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            </Link>
-          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
