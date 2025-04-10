@@ -63,7 +63,7 @@ export default function ProjectDetail({ params }) {
           <h2 className="text-4xl font-semibold mb-2">
             {lang === "en" ? "🔍 Background" : "🔍 프로젝트 개요"}
           </h2>
-          <p className="text-xl text-gray-700">{project.background[lang]}</p>
+          <p className="text-xl text-gray-200">{project.background[lang]}</p>
         </div>
 
         {/* DB Design */}

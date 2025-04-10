@@ -11,14 +11,14 @@ export default function Footer() {
 
         <div className="flex space-x-6 text-xl">
           <a
-            href="mailto:your@email.com"
+            href="mailto:michaelrivera0206@gmail.com"
             className="hover:text-blue-400 transition"
             aria-label="Email"
           >
             <FaEnvelope />
           </a>
           <a
-            href="https://linkedin.com/in/yourprofile"
+            href="https://www.linkedin.com/in/michael-rivera-026370104/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-blue-400 transition"
@@ -27,7 +27,7 @@ export default function Footer() {
             <FaLinkedin />
           </a>
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/Leevera300"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-blue-400 transition"

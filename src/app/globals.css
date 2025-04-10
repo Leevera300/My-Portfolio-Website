@@ -8,29 +8,10 @@
   --text-muted: #9ca3af;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 body {
   background: var(--background);
   color: var(--text-primary);
   font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Override text colors for better visibility on dark background */
-.text-gray-600,
-.text-gray-700 {
-  color: var(--text-secondary) !important;
-}
-
-.text-gray-300,
-.text-gray-400,
-.text-gray-500 {
-  color: var(--text-muted) !important;
 }
 
 html {
@@ -41,4 +22,34 @@ html {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes slide-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-fade-in {
+  animation: slide-fade-in 0.5s ease-out forwards;
 }
