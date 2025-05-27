@@ -6,6 +6,7 @@ import ProfileImage from "./myInfo/profileImage";
 import MySkills from "./myInfo/mySkills";
 import ProfessionalJourney from "./myInfo/professionalJourney";
 import ProjectsPreview from "./myInfo/projectsPreview";
+import ContactSection from "./ContactSection";
 
 export default function Hero() {
   const { lang } = useLang();
@@ -15,12 +16,9 @@ export default function Hero() {
       {/* Hero Section */}
       <section
         id="home"
-        className="relative text-white min-h-screen flex items-center justify-center px-6 py-20 bg-black"
+        className="relative text-white flex items-center justify-center bg-black"
       >
-        <div className="max-w-7xl w-full flex flex-col-reverse md:flex-row items-center gap-12">
-          <BriefIntro />
-          <ProfileImage />
-        </div>
+        <BriefIntro />
       </section>
 
       {/* Skills Section */}
@@ -33,16 +31,7 @@ export default function Hero() {
       <ProfessionalJourney />
 
       {/* Contact Section */}
-      <section className="relative text-white min-h-screen flex items-center justify-center px-6 py-20 bg-black">
-        <div className="max-w-7xl w-full text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8">
-            {lang === "en" ? "Let's Connect" : "연락하기"}
-          </h2>
-          <div className="max-w-2xl mx-auto">
-            {/* Add your contact form or content here */}
-          </div>
-        </div>
-      </section>
+      <ContactSection />
     </>
   );
 }
