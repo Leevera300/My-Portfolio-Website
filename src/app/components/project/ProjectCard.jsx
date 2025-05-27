@@ -7,9 +7,19 @@ export default function ProjectCard({
   tags = [],
   link,
   github,
+  className,
 }) {
+  const defaultClasses =
+    "bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-xl transition-shadow overflow-hidden";
+  const defaultTextClasses = {
+    title: "text-black",
+    description: "text-gray-900",
+    tags: "bg-blue-600 text-white",
+  };
+  const cardClasses = className || defaultClasses;
+
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-xl transition-shadow overflow-hidden">
+    <div className={cardClasses}>
       {/* Clickable Link Wrapper */}
       <Link href={link}>
         <div className="cursor-pointer">
@@ -22,14 +32,20 @@ export default function ProjectCard({
           )}
 
           <div className="p-6">
-            <h3 className="text-2xl font-semibold mb-2 text-white">{title}</h3>
-            <p className="text-gray-900 mb-4 text-lg">{description}</p>
+            <h3
+              className={`text-2xl font-semibold mb-2 ${defaultTextClasses.title}`}
+            >
+              {title}
+            </h3>
+            <p className={`mb-4 text-lg ${defaultTextClasses.description}`}>
+              {description}
+            </p>
 
             <div className="flex flex-wrap gap-2 mb-4">
               {tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="text-sm bg-blue-600 text-white px-2 py-1 rounded"
+                  className={`text-sm px-2 py-1 rounded ${defaultTextClasses.tags}`}
                 >
                   {tag}
                 </span>

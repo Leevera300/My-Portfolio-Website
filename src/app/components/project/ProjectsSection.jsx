@@ -26,7 +26,7 @@ export default function ProjectsSection() {
               ? "/images/My-portfolio-en.png"
               : "/images/My-portfolio-kor.png"
           }
-          tags={["Next.js", "Tailwind", "Responsive"]}
+          tags={["Next.js", "Tailwind", "Responsive", "React", "PostgreSQL"]}
           link="/projects/portfolio"
           github="https://github.com/Leevera300/My-Portfolio-Website"
         />
