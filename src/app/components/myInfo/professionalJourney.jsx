@@ -31,28 +31,45 @@ export default function ProfessionalJourney() {
           "• Achieved tangible results such as 50% reduction in unauthorized access",
         ],
       },
-      icon: "📍",
+      icon: "👨‍✈️",
       color: "bg-yellow-400",
     },
     {
-      year: "2021–2022",
+      year: "2021.08–2022.06",
       title: {
-        ko: "연구 보조 & 응급 구조사 (EMT)",
-        en: "Research Assistant & EMT",
+        ko: "연구 조교",
+        en: "Research Assistant",
       },
       description: {
         ko: [
-          "• 심리 연구 실험 진행 및 데이터 정리",
+          "• 실험 설계 및 데이터 분석 수행",
+          "• 연구 프로젝트 목표 달성을 위한 데이터 기록 및 정리",
+        ],
+        en: [
+          "• Conducted experimental design and data analysis",
+          "• Recorded and organized data to achieve research project objectives",
+        ],
+      },
+      icon: "🔬",
+      color: "bg-indigo-400",
+    },
+    {
+      year: "2022",
+      title: {
+        ko: "응급 구조사 (EMT)",
+        en: "EMT",
+      },
+      description: {
+        ko: [
           "• 앰뷸런스 탑승 환자 응급처치 및 이송",
           "• EMT 실습생 멘토링 및 현장 운영 지원",
         ],
         en: [
-          "• Conducted psychological research experiments and organized data",
           "• Provided emergency care and transport for ambulance patients",
           "• Mentored EMT trainees and supported field operations",
         ],
       },
-      icon: "📍",
+      icon: "🚑",
       color: "bg-cyan-400",
     },
     {
@@ -69,7 +86,7 @@ export default function ProfessionalJourney() {
           "• Completed training in threat analysis, data protection, and policy compliance",
         ],
       },
-      icon: "📍",
+      icon: "🔒",
       color: "bg-red-400",
     },
     {
@@ -90,7 +107,7 @@ export default function ProfessionalJourney() {
           "• Experience deploying and operating servers on AWS EC2",
         ],
       },
-      icon: "📍",
+      icon: "💻",
       color: "bg-purple-400",
     },
     {
@@ -113,7 +130,7 @@ export default function ProfessionalJourney() {
           "• Led internal workshops on development architecture",
         ],
       },
-      icon: "📍",
+      icon: "K",
       color: "bg-blue-400",
     },
     {
@@ -132,128 +149,99 @@ export default function ProfessionalJourney() {
           "• Growing as a practical web developer focused on security and efficiency",
         ],
       },
-      icon: "🧭",
+      icon: "🌐",
       color: "bg-green-400",
     },
   ];
 
   return (
-    <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-[80vh] w-full py-16 px-0 overflow-x-auto">
-      <h2 className="text-4xl font-bold text-white text-center mb-12 tracking-wide">
-        {lang === "en" ? "Work Experience Timeline" : "경력 타임라인"}
+    <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-[80vh] w-full py-16 px-4">
+      <h2 className="text-4xl font-bold text-white text-center mb-16 tracking-wide">
+        {lang === "en" ? "Professional Journey" : "경력 타임라인"}
       </h2>
-      <div className="w-full overflow-x-auto">
-        <div className="flex items-center gap-0 w-max px-10 mx-auto">
-          {timelineData.map((item, idx) => {
-            const isEven = idx % 2 === 0;
-            const isActive = activeIdx === idx;
-            const isHovered = hoverIdx === idx;
-            return (
-              <>
+      <div className="max-w-6xl mx-auto">
+        <div className="relative">
+          {/* Main Timeline Line */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-700"></div>
+
+          {timelineData.map((item, idx) => (
+            <div
+              key={idx}
+              className="relative mb-24 last:mb-0"
+              data-aos="fade-up"
+              data-aos-delay={idx * 100}
+            >
+              {/* Timeline Node */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <div
-                  key={idx}
-                  className={`relative flex flex-col items-center min-w-[260px] mx-0 ${
-                    isEven ? "mb-32" : "mt-32"
+                  className={`w-8 h-8 rounded-full ${item.color} border-4 border-gray-800`}
+                ></div>
+              </div>
+
+              {/* Content Card */}
+              <div
+                className={`relative w-[calc(50%-2rem)] ${
+                  idx % 2 === 0 ? "ml-auto" : "mr-auto"
+                }`}
+              >
+                <div
+                  className={`p-6 rounded-lg shadow-lg ${
+                    idx % 2 === 0 ? "ml-8" : "mr-8"
                   }`}
+                  style={{
+                    backgroundColor: "rgba(17, 24, 39, 0.8)",
+                    backdropFilter: "blur(10px)",
+                  }}
                 >
-                  {/* Up or Down Card */}
-                  <div
-                    className={
-                      isEven
-                        ? "flex flex-col items-center mb-6"
-                        : "flex flex-col-reverse items-center mt-6"
-                    }
-                  >
+                  {/* Year Badge */}
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <span className="px-4 py-1 rounded-full text-sm font-semibold bg-gray-800 text-white">
+                      {item.year[lang] ? item.year[lang] : item.year}
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex items-start gap-4">
                     <div
-                      className={`w-14 h-14 rounded-full ${item.color} flex items-center justify-center text-3xl mb-2 shadow-lg border-4 border-white/30`}
+                      className={`w-12 h-12 rounded-full ${item.color} flex items-center justify-center text-2xl`}
                     >
                       {item.icon}
                     </div>
-                    <div className="bg-gray-900/90 text-white p-4 rounded shadow text-center min-w-[200px] max-w-[220px]">
-                      <div
-                        className="font-bold text-2xl cursor-pointer relative"
+                    <div className="flex-1">
+                      <h3
+                        className="text-xl font-bold text-white mb-3 cursor-pointer hover:text-gray-300 transition-colors"
                         onMouseEnter={() => setHoverIdx(idx)}
                         onMouseLeave={() => setHoverIdx(null)}
-                        onClick={() => setActiveIdx(isActive ? null : idx)}
+                        onClick={() =>
+                          setActiveIdx(activeIdx === idx ? null : idx)
+                        }
                       >
                         {item.title[lang]}
-                        {/* Tooltip on hover */}
-                        {isHovered && !isActive && (
-                          <div className="absolute left-1/2 top-full z-30 w-max min-w-[180px] -translate-x-1/2 mt-2 bg-gray-800 text-gray-100 text-xs rounded shadow-lg px-4 py-2 pointer-events-none">
-                            {item.description[lang].map((line, i) => (
-                              <div key={i}>{line}</div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                      {/* Description below on click */}
-                      {isActive && (
-                        <div className="mt-3 text-lg text-gray-300 transition-all duration-300">
+                      </h3>
+                      {(activeIdx === idx || hoverIdx === idx) && (
+                        <div className="text-gray-300 space-y-2">
                           {item.description[lang].map((line, i) => (
-                            <div key={i}>{line}</div>
+                            <p key={i} className="text-sm">
+                              {line}
+                            </p>
                           ))}
                         </div>
                       )}
                     </div>
                   </div>
-                  {/* Arrow Segment with Year */}
-                  <div className="relative flex items-center w-40 h-10">
-                    {/* Arrow body */}
-                    <div className={`w-full h-3 ${item.color} relative z-10`}>
-                      {/* Arrow head */}
-                      <div
-                        className={`absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-t-6 border-b-6 border-l-8 border-t-transparent border-b-transparent ${
-                          item.color
-                        } border-l-[${item.color.replace("bg-", "")}]`}
-                      ></div>
-                    </div>
-                    {/* Year */}
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-bold text-lg z-20 drop-shadow-lg">
-                      {item.year[lang] ? item.year[lang] : item.year}
-                    </div>
-                  </div>
                 </div>
-                {/* Arrow between elements, except after the last */}
+
+                {/* Connecting Line */}
                 {idx < timelineData.length - 1 && (
-                  <svg
-                    className={`mx-2 w-32 h-40 overflow-visible ${item.color} ${
-                      isEven ? "self-end" : "self-start"
-                    }`}
-                    style={{ alignSelf: isEven ? "flex-end" : "flex-start" }}
-                    viewBox="0 0 128 160"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline
-                      points={
-                        isEven
-                          ? "8,136 48,96 88,136 120,40"
-                          : "8,24 48,64 88,24 120,120"
-                      }
-                      stroke="currentColor"
-                      strokeWidth="12"
-                      fill="none"
-                      strokeLinejoin="miter"
-                      markerEnd={`url(#arrowhead-${idx})`}
-                    />
-                    <defs>
-                      <marker
-                        id={`arrowhead-${idx}`}
-                        markerWidth="16"
-                        markerHeight="16"
-                        refX="8"
-                        refY="8"
-                        orient="auto"
-                        markerUnits="strokeWidth"
-                      >
-                        <polygon points="0 0, 16 8, 0 16" fill="currentColor" />
-                      </marker>
-                    </defs>
-                  </svg>
+                  <div
+                    className={`absolute ${
+                      idx % 2 === 0 ? "left-0" : "right-0"
+                    } top-1/2 w-8 h-0.5 ${item.color}`}
+                  ></div>
                 )}
-              </>
-            );
-          })}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
