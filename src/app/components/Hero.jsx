@@ -2,11 +2,10 @@
 
 import { useLang } from "../context/LangContext";
 import BriefIntro from "./myInfo/BriefIntro";
-import ProfileImage from "./myInfo/profileImage";
 import MySkills from "./myInfo/mySkills";
 import ProfessionalJourney from "./myInfo/professionalJourney";
 import ProjectsPreview from "./myInfo/projectsPreview";
-import ContactSection from "./ContactSection";
+import Contact from "./myInfo/Contact";
 
 export default function Hero() {
   const { lang } = useLang();
@@ -31,7 +30,7 @@ export default function Hero() {
       <ProfessionalJourney />
 
       {/* Contact Section */}
-      <ContactSection />
+      <Contact />
     </>
   );
 }
