@@ -6,15 +6,18 @@ export default function BriefIntro() {
 
   return (
     <section
-      className="w-full min-h-[80vh] flex flex-col md:flex-row items-center justify-between px-16 md:px-24"
+      className="w-full min-h-[65vh] flex flex-col md:flex-row items-center justify-between px-16 md:px-24"
       style={{ background: "#38bdf8" }}
     >
       {/* Left: Text Content */}
-      <div className="flex-1 flex flex-col justify-center items-start w-full text-left h-full py-12 md:py-0">
-        <span className="uppercase tracking-widest text-white/80 text-base mb-6 font-semibold">
-          MICHAEL RIVERA
-        </span>
-        <h1 className="text-white text-6xl md:text-8xl font-extrabold leading-[1.05] mb-10">
+      <div className="flex-1 flex flex-col justify-center items-center w-full h-full py-12 md:py-0">
+        <div className="flex flex-col items-start w-1/2">
+          <span className="uppercase tracking-widest text-white/80 text-base mb-6 font-semibold text-left">
+            MICHAEL RIVERA
+          </span>
+        </div>
+
+        <h1 className="text-white text-6xl md:text-8xl font-bold leading-[1.05] mb-10">
           {lang === "en" ? (
             <>
               I'm Full-Stack
