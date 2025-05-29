@@ -3,7 +3,7 @@ import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 export default function Footer() {
   return (
     <footer className="text-gray-300 py-6 mt-20">
-      <div className="max-w-4xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center">
         <p className="text-sm">
           &copy; {new Date().getFullYear()} Michael Lee Rivera. All rights
           reserved.

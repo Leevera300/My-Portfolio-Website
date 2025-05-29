@@ -7,6 +7,7 @@ import { projects } from "../../data/projects";
 import { notFound } from "next/navigation";
 import { functions as horsepowerFunctions } from "../../components/project/horsepower/horsepowerFunctionsData";
 import { functions as myPortfolioFunctions } from "../../components/project/myPortfolio/myPortfolioFunctionsData";
+import { functions as reactFunctions } from "../../components/project/react/reactFunctionsData";
 
 export default function ProjectDetail({ params }) {
   const unwrappedParams = React.use(params);
@@ -26,6 +27,8 @@ export default function ProjectDetail({ params }) {
         return horsepowerFunctions;
       case "portfolio":
         return myPortfolioFunctions;
+      case "react":
+        return reactFunctions;
       // Add more cases as you create more projects
       // case 'other-project':
       //   return otherProjectFunctions;

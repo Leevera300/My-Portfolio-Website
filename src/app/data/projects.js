@@ -52,5 +52,23 @@ export const projects = {
       github: "https://github.com/Leevera300/My-Portfolio-Website",
     },
   },
+  react: {
+    title: {
+      en: "React",
+      ko: "리액트",
+    },
+    description: {
+      en: "",
+      ko: "",
+    },
+    techStack: ["React"],
+    background: {
+      en: "I explored a range of mini React projects including debugging tools, investment calculators, shopping cart skeletons, and hands-on experiments with refs, portals, and Tailwind styling. These helped build a solid grasp of both UI logic and component-level design.",
+      ko: "디버깅 도구, 투자 계산기, 쇼핑 카트 스켈레톤, refs, 포탈, Tailwind 스타일링과 같은 다양한 소규모 React 프로젝트를 탐험했습니다. 이러한 프로젝트들은 UI 논리와 컴포넌트 수준 디자인에 대한 근본적인 이해를 강화하는 데 도움이 되었습니다.",
+    },
+    links: {
+      github: "https://github.com/Leevera300/React_practice",
+    },
+  },
   // Add more projects here following the same structure
 };
