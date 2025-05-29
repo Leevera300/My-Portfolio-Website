@@ -13,6 +13,7 @@ export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,20 +23,40 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.message) {
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
       setIsSubmitted(true);
-      setError("");
       setFormData({
         name: "",
         email: "",
         message: "",
       });
-    } else {
+    } catch (err) {
       setError(
-        lang === "en" ? "Please fill in all fields" : "모든 필드를 입력해주세요"
+        lang === "en"
+          ? "Failed to send message. Please try again."
+          : "메시지 전송에 실패했습니다. 다시 시도해주세요."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -152,6 +173,7 @@ export default function Contact() {
                       placeholder={lang === "en" ? "Your Name" : "이름"}
                       className="w-full px-3 py-2 rounded-lg border border-[#38bdf8]/30 bg-[#1a1f2b] text-[#e5e7eb] placeholder-[#9ca3af] focus:outline-none focus:ring-2 focus:ring-[#00ffc3]/50 focus:border-transparent transition-all"
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <div>
@@ -163,6 +185,7 @@ export default function Contact() {
                       placeholder={lang === "en" ? "Your Email" : "이메일"}
                       className="w-full px-3 py-2 rounded-lg border border-[#38bdf8]/30 bg-[#1a1f2b] text-[#e5e7eb] placeholder-[#9ca3af] focus:outline-none focus:ring-2 focus:ring-[#00ffc3]/50 focus:border-transparent transition-all"
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <div>
@@ -174,14 +197,22 @@ export default function Contact() {
                       rows="4"
                       className="w-full px-3 py-2 rounded-lg border border-[#38bdf8]/30 bg-[#1a1f2b] text-[#e5e7eb] placeholder-[#9ca3af] focus:outline-none focus:ring-2 focus:ring-[#00ffc3]/50 focus:border-transparent transition-all"
                       required
+                      disabled={isLoading}
                     ></textarea>
                   </div>
                   <div className="flex gap-2 justify-center pt-2">
                     <button
                       type="submit"
-                      className="bg-[#38bdf8] text-[#0d1117] px-4 py-2 rounded-lg text-sm hover:bg-[#00ffc3] transition-all duration-300 flex-1 max-w-[120px] shadow-lg hover:shadow-[#38bdf8]/20 font-medium"
+                      className="bg-[#38bdf8] text-[#0d1117] px-4 py-2 rounded-lg text-sm hover:bg-[#00ffc3] transition-all duration-300 flex-1 max-w-[120px] shadow-lg hover:shadow-[#38bdf8]/20 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={isLoading}
                     >
-                      {lang === "en" ? "Send" : "보내기"}
+                      {isLoading
+                        ? lang === "en"
+                          ? "Sending..."
+                          : "전송 중..."
+                        : lang === "en"
+                        ? "Send"
+                        : "보내기"}
                     </button>
                   </div>
                 </form>

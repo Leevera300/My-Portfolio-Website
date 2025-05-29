@@ -3,16 +3,43 @@ import { useEffect, useState } from "react";
 import { useLang } from "../context/LangContext";
 import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 export default function Navbar() {
   const { lang, toggleLang } = useLang();
   const { isLoggedIn, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Check if we should scroll to contact section
+    if (searchParams.get("section") === "contact") {
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [searchParams]);
 
   const handleLogout = () => {
     logout();
     router.push("/");
+  };
+
+  const handleContactClick = (e) => {
+    e.preventDefault();
+
+    // If we're already on the home page, use hash navigation
+    if (pathname === "/") {
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // If we're on another page, navigate to home with query parameter
+      router.push("/?section=contact");
+    }
   };
 
   return (
@@ -37,7 +64,11 @@ export default function Navbar() {
         <Link href="/blog" className="text-xl text-gray-300 hover:underline">
           {lang === "en" ? "Blog" : "블로그"}
         </Link>
-        <Link href="/contact" className="text-xl text-gray-300 hover:underline">
+        <Link
+          href={pathname === "/" ? "#contact" : "/?section=contact"}
+          onClick={handleContactClick}
+          className="text-xl text-gray-300 hover:underline"
+        >
           {lang === "en" ? "Contact" : "연락처"}
         </Link>
         {isLoggedIn && (

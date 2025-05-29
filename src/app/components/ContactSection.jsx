@@ -11,6 +11,7 @@ export default function ContactSection() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,23 +21,40 @@ export default function ContactSection() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    // For now, we'll just simulate a successful submission
-    if (formData.name && formData.email && formData.message) {
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
       setIsSubmitted(true);
-      setError("");
-      // Reset form
       setFormData({
         name: "",
         email: "",
         message: "",
       });
-    } else {
+    } catch (err) {
       setError(
-        lang === "en" ? "Please fill in all fields" : "모든 필드를 입력해주세요"
+        lang === "en"
+          ? "Failed to send message. Please try again."
+          : "메시지 전송에 실패했습니다. 다시 시도해주세요."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -70,6 +88,7 @@ export default function ContactSection() {
                 placeholder={lang === "en" ? "Your Name" : "이름"}
                 className="w-full px-4 py-3 rounded border border-gray-600 bg-[#1a1f2b] text-white"
                 required
+                disabled={isLoading}
               />
             </div>
             <div>
@@ -81,6 +100,7 @@ export default function ContactSection() {
                 placeholder={lang === "en" ? "Your Email" : "이메일"}
                 className="w-full px-4 py-3 rounded border border-gray-600 bg-[#1a1f2b] text-white"
                 required
+                disabled={isLoading}
               />
             </div>
             <div>
@@ -92,13 +112,21 @@ export default function ContactSection() {
                 rows="5"
                 className="w-full px-4 py-3 rounded border border-gray-600 bg-[#1a1f2b] text-white"
                 required
+                disabled={isLoading}
               ></textarea>
             </div>
             <button
               type="submit"
-              className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition"
+              className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLoading}
             >
-              {lang === "en" ? "Send Message" : "메시지 보내기"}
+              {isLoading
+                ? lang === "en"
+                  ? "Sending..."
+                  : "전송 중..."
+                : lang === "en"
+                ? "Send Message"
+                : "메시지 보내기"}
             </button>
           </form>
 

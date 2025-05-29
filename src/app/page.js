@@ -5,11 +5,27 @@ import Hero from "./components/Hero";
 
 export default function Home() {
   const { lang } = useLang();
-  const [showLoading, setShowLoading] = useState(true);
+  // TESTING: Set this to true to force show loading screen
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowLoading(false), 1000); // 1 seconds
-    return () => clearTimeout(timer);
+    // TESTING: Comment out this block to force show loading screen
+    const lastVisit = localStorage.getItem("lastVisit");
+    const currentTime = new Date().getTime();
+    const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+
+    if (!lastVisit || currentTime - parseInt(lastVisit) > oneHour) {
+      setShowLoading(true);
+      localStorage.setItem("lastVisit", currentTime.toString());
+
+      const timer = setTimeout(() => setShowLoading(false), 1000);
+      return () => clearTimeout(timer);
+    }
+
+    // TESTING: Uncomment these lines to force show loading screen
+    // setShowLoading(true);
+    // const timer = setTimeout(() => setShowLoading(false), 1000);
+    // return () => clearTimeout(timer);
   }, []);
 
   if (showLoading) {
@@ -20,7 +36,7 @@ export default function Home() {
 
     return (
       <div className="fixed inset-0 bg-[#0d1117] flex items-center justify-center z-50">
-        <h1 className="flex flex-wrap justify-center text-4xl sm:text-6xl md:text-7xl font-extrabold  text-[#000000] drop-shadow-[3px_3px_1px_#ffffff]">
+        <h1 className="flex flex-wrap justify-center text-4xl sm:text-6xl md:text-7xl font-extrabold text-[#000000] drop-shadow-[3px_3px_1px_#ffffff]">
           {message.split("").map((char, i) => (
             <span
               key={i}
