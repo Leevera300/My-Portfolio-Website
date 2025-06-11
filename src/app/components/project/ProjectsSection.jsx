@@ -53,19 +53,6 @@ export default function ProjectsSection() {
           link="/projects/horsepower"
           github="https://github.com/Leevera300/HorsePower-Sportswear#"
         />
-
-        <ProjectCard
-          title={lang === "en" ? "React" : "리액트"}
-          description={
-            lang === "en"
-              ? "Bunch of projects built with React."
-              : "리액트로 만든 여러 프로젝트입니다."
-          }
-          image="/images/react.png"
-          tags={["React"]}
-          link="/projects/react"
-          github="https://github.com/Leevera300/React_practice"
-        />
       </div>
     </section>
   );
