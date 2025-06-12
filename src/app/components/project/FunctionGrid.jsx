@@ -1,8 +1,7 @@
 import FunctionCard from "./FunctionCard";
-import { functions } from "./horsepower/horsepowerFunctionsData";
 
 export default function FunctionGrid({ functions }) {
-  if (!functions || functions.length === 0) {
+  if (!functions || !Array.isArray(functions) || functions.length === 0) {
     return null;
   }
 
