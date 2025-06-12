@@ -8,9 +8,15 @@ import { notFound } from "next/navigation";
 import { functions as horsepowerFunctions } from "../../components/project/horsepower/horsepowerFunctionsData";
 import { functions as myPortfolioFunctions } from "../../components/project/myPortfolio/myPortfolioFunctionsData";
 
+// Add generateStaticParams for static export
+export async function generateStaticParams() {
+  return Object.keys(projects).map((slug) => ({
+    slug: slug,
+  }));
+}
+
 export default function ProjectDetail({ params }) {
-  const unwrappedParams = React.use(params);
-  const { slug } = unwrappedParams;
+  const { slug } = params;
   const { lang } = useLang();
 
   const project = projects[slug];
