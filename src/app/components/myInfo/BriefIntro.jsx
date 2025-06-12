@@ -1,5 +1,5 @@
 import { useLang } from "@/app/context/LangContext";
-import ProfileImage from "./ProfileImage";
+import ProfileImage from "./profileImage";
 
 export default function BriefIntro() {
   const { lang } = useLang();
