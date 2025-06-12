@@ -5,7 +5,7 @@ export default function ProfileImage() {
     <div className="md:w-1/2 flex justify-center relative">
       <div className="rounded-full overflow-hidden border-4 border-[#38bdf8] shadow-lg w-64 h-64">
         <Image
-          src="/images/profile-img.jpg"
+          src="/My-Portfolio-Website/images/profile-img.jpg"
           alt="Michael's portrait"
           width={300}
           height={300}
