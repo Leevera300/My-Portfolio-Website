@@ -1,7 +1,5 @@
-export default function myPortfolioFunctionsData() {
-  return (
-    <div>
-      <h1>My Portfolio Functions Data</h1>
-    </div>
-  );
-}
+export const functions = {
+  // Add your functions here
+};
+
+export default functions;

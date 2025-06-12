@@ -69,7 +69,7 @@ export default function ProjectsPreview() {
             }
             image={""}
             tags={["Next.js", "Tailwind", "Responsive", "React", "PostgreSQL"]}
-            link="/projects/portfolio"
+            link="/"
             github="https://github.com/Leevera300/My-Portfolio-Website"
             className="bg-gray-900 rounded-xl shadow hover:shadow-xl transition-shadow overflow-hidden [&_h3]:text-white [&_p]:text-gray-300 [&_span]:bg-gray-800"
           />

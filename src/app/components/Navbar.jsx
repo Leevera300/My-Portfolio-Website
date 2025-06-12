@@ -1,16 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useLang } from "../context/LangContext";
 import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-export default function Navbar() {
-  const { lang, toggleLang } = useLang();
-  const { isLoggedIn, logout } = useAuth();
+function NavbarContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { lang, toggleLang } = useLang();
+  const { isLoggedIn, logout } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     // Check if we should scroll to contact section
@@ -61,16 +62,16 @@ export default function Navbar() {
         >
           {lang === "en" ? "Projects" : "프로젝트"}
         </Link>
-        <Link href="/blog" className="text-xl text-gray-300 hover:underline">
+        {/* <Link href="/blog" className="text-xl text-gray-300 hover:underline">
           {lang === "en" ? "Blog" : "블로그"}
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           href={pathname === "/" ? "#contact" : "/?section=contact"}
           onClick={handleContactClick}
           className="text-xl text-gray-300 hover:underline"
         >
           {lang === "en" ? "Contact" : "연락처"}
-        </Link>
+        </Link> */}
         {isLoggedIn && (
           <button
             onClick={handleLogout}
@@ -87,5 +88,19 @@ export default function Navbar() {
         </button>
       </div>
     </nav>
+  );
+}
+
+export default function Navbar() {
+  return (
+    <Suspense
+      fallback={
+        <nav className="bg-gray-900 text-white p-4">
+          <div className="container mx-auto">Loading...</div>
+        </nav>
+      }
+    >
+      <NavbarContent />
+    </Suspense>
   );
 }
