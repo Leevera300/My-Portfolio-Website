@@ -15,4 +15,8 @@ module.exports = {
     },
   },
   plugins: [],
+  // Add this to ensure Tailwind works with the base path
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
 };

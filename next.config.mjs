@@ -4,8 +4,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: process.env.GITHUB_PAGES ? "/my-portfolio" : "",
-  assetPrefix: process.env.GITHUB_PAGES ? "/my-portfolio/" : "",
+  basePath:
+    process.env.NODE_ENV === "production" ? "/My-Portfolio-Website" : "",
+  assetPrefix:
+    process.env.NODE_ENV === "production" ? "/My-Portfolio-Website/" : "",
+  trailingSlash: true,
 };
 
 export default nextConfig;
